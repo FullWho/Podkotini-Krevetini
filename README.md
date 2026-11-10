@@ -11,6 +11,9 @@
 ## Файлы
 
 - `SPEC.md` — техническое задание (версия 0.9.3).
+- `podkotini_krevetini.py` — класс транспорта и доменные исключения.
+- `BUGREPORT.md` — результаты проверки и вопросы разработчика.
+- `REFLECTION_Tsygankov.md` — рефлексия по проверке и интеграции реализации.
 - `TEST_CASES.md` — 40 тест-кейсов: 32 модульных, 8 сценарных.
 - `tests/` — тесты на `unittest` и тестовая обёртка пилота.
 - `RESPONSES.md` — ответы автора на замечания ревьюеров.
@@ -21,6 +24,20 @@
 
 Python 3.10+. Сторонние библиотеки не требуются.
 
-```powershell
-python -m unittest discover -s tests -v
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+## Реализация
+
+Класс `PodkotiniKrevetini` поддерживает движение в режимах `cruise` и `boost`, погружение и всплытие, зарядку, повреждение и ремонт. Публичные свойства доступны только для чтения; ошибки не изменяют состояние.
+
+```python
+from podkotini_krevetini import PodkotiniKrevetini
+
+craft = PodkotiniKrevetini("Креветини", 250, 1.8, 40, 200)
+craft.dive(20)              # расход 2, энергия 98
+craft.move(10)              # 0.25 ч, энергия 78
+craft.surface()             # расход 1, энергия 77
+print(craft.get_status())
 ```
