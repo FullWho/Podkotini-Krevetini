@@ -54,6 +54,10 @@ class TestPodkotiniScenarios(unittest.TestCase):
         self.assertEqual(craft.energy, 88)
         pilot.swim(10)
         self.assertEqual(craft.energy, 58)
+        before = craft.get_status()
+        with self.assertRaises(PodkotiniTooDeep):
+            pilot.dive(201)
+        self.assertEqual(craft.get_status(), before)
         pilot.surface()
         # Then
         self.assertEqual(craft.energy, 52)
@@ -92,6 +96,10 @@ class TestPodkotiniScenarios(unittest.TestCase):
         pilot.swim(4)
         pilot.crash(100)
         # When
+        before = craft.get_status()
+        with self.assertRaises(PodkotiniImmobilized):
+            pilot.swim(1)
+        self.assertEqual(craft.get_status(), before)
         pilot.fix(25)
         pilot.swim(1)
         # Then
@@ -116,6 +124,10 @@ class TestPodkotiniScenarios(unittest.TestCase):
         # Given
         craft, pilot = setup(energy=25)
         pilot.dive(100)
+        before = craft.get_status()
+        with self.assertRaises(PodkotiniNoEnergy):
+            pilot.swim(10, "boost")
+        self.assertEqual(craft.get_status(), before)
         # When
         pilot.surface()
         pilot.charge(30)
